@@ -13,14 +13,8 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - id: tag
-        run: |
-          TAG="${GITHUB_REF#refs/heads/}"
-          if [ -z "$TAG" ]; then exit 1; fi
-          if [[ $TAG == "main" ]]; then TAG="latest"; else TAG="branch-${TAG}"; fi
-          echo "::set-output name=tag::${TAG}"
       - run: |
-          make save-manifests docker-build docker-push IMG=ghcr.io/krystal/database-provisioner:${{ steps.tag.outputs.tag }}
+          make save-manifests docker-build docker-push IMG=ghcr.io/krystal/database-provisioner:${{  github.ref_name }}
       - uses: "marvinpinto/action-automatic-releases@v1.2.1"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
