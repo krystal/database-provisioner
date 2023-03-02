@@ -8,7 +8,7 @@ This is a Kubernetes operator that provisions databases on external database ser
 
 1. Grab a manifest.yaml from the [latest release](https://github.com/krystal/database-provisioner/releases).
 2. Apply to the manifest to your cluster using `kubectl apply -f`.
-3. Add appropriate
+3. Add appropriate CRs as shown below.
 
 ## Example
 
