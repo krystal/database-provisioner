@@ -1,0 +1,7 @@
+apiVersion: databases.k8s.k.io/v1
+kind: MySQLDatabase
+metadata:
+  name: mysqldatabase-sample
+spec:
+  serverName: mysqlserver-sample
+  connectionDetailsSecretName: mysqldatabase-sample-connection-details

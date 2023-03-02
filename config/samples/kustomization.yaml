@@ -1,0 +1,5 @@
+## Append samples of your project ##
+resources:
+- databases_v1_mysqldatabase.yaml
+- databases_v1_mysqlserver.yaml
+#+kubebuilder:scaffold:manifestskustomizesamples

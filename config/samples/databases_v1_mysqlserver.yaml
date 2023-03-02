@@ -1,0 +1,9 @@
+apiVersion: databases.k8s.k.io/v1
+kind: MySQLServer
+metadata:
+  name: mysqlserver-sample
+spec:
+  host: 185.22.211.154
+  port: 3306
+  username: root
+  password: Llamafarm123!
