@@ -14,7 +14,7 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - run: |
-          make save-manifests docker-build docker-push IMG=ghcr.io/krystal/database-provisioner:${{  github.ref_name }}
+          make save-manifests docker-build docker-push IMG=ghcr.io/krystal/database-provisioner:${{ github.ref_name }}
       - uses: "marvinpinto/action-automatic-releases@v1.2.1"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
