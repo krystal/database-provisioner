@@ -1,16 +1,46 @@
 # Kubernetes External Database Provisioner
 
-This is a Kubernetes operator that provisions databases on external database services. Right now it supports the following backends.
+This is a Kubernetes operator that provisions databases on external database services. Right now it supports the following backends and more will be added.
 
 - MySQL / MariaDB
 
 ## Getting started
 
-1. Download the manifest from the release
-2. Apply to the manifest to your cluster
-3. Create resources
+1. Grab a manifest.yaml from the [latest release](https://github.com/krystal/database-provisioner/releases).
+2. Apply to the manifest to your cluster using `kubectl apply -f`.
+3. Add appropriate
 
-## Example
+## Example
+
+Apply a default `MySQLServer` CR to your cluster with details for an external service.
+
+```yaml
+apiVersion: databases.k8s.k.io/v1
+kind: MySQLServer
+metadata:
+  name: default
+spec:
+  host: 185.22.208.10
+  port: 3306
+  username: root
+  password: 5up3r53cr3t
+```
+
+Apply a `MySQLDatabase` CR to your cluster to create a database.
+
+```yaml
+apiVersion: databases.k8s.k.io/v1
+kind: MySQLDatabase
+metadata:
+  name: my-database
+  namespace: some-namespace
+spec:
+  serverName: default
+  connectionDetailsSecretName: db-connection
+```
+
+- This will use the `default` server
+- This will create a secret called `db-connection` containing details for the database connection. This secret will be created in the same namespace as the `MySQLDatabase` CR. It will have values for `host`, `username`, `password`, and `databaseName`.
 
 ## Developing
 
