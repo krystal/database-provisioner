@@ -1,5 +1,8 @@
 name: Build
-on: [push]
+on:
+  push:
+    tags:
+      - "v*"
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,4 +20,10 @@ jobs:
           if [[ $TAG == "main" ]]; then TAG="latest"; else TAG="branch-${TAG}"; fi
           echo "::set-output name=tag::${TAG}"
       - run: |
-          make docker-build docker-push IMG=ghcr.io/krystal/database-provisioner:${{ steps.tag.outputs.tag }}
+          make save-manifests docker-build docker-push IMG=ghcr.io/krystal/database-provisioner:${{ steps.tag.outputs.tag }}
+      - uses: "marvinpinto/action-automatic-releases@v1.2.1"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
+          files: |
+            manifest.yaml
