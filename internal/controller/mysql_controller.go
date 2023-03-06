@@ -140,7 +140,6 @@ func (r *MySQLDatabaseReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 			return ctrl.Result{}, row.Err()
 		}
 		log.Info("deleted database", "database", databaseNameWithNamespace)
-
 		log.Info("removing finalizer")
 		controllerutil.RemoveFinalizer(&database, finalizerName)
 		if err := r.Update(ctx, &database); err != nil {
@@ -183,6 +182,8 @@ func (r *MySQLDatabaseReconciler) Reconcile(ctx context.Context, req ctrl.Reques
 	connectionDetailsSecret.StringData["username"] = databaseNameWithNamespace
 	connectionDetailsSecret.StringData["password"] = databasePassword
 	connectionDetailsSecret.StringData["host"] = server.Spec.Host
+	connectionDetailsSecret.StringData["port"] = fmt.Sprintf("%d", server.Spec.Port)
+	connectionDetailsSecret.StringData["dsn"] = fmt.Sprintf("%s:%s@%s:%d/%s", databaseNameWithNamespace, databasePassword, server.Spec.Host, server.Spec.Port, databaseNameWithNamespace)
 
 	if newSecret {
 		err = r.Create(ctx, &connectionDetailsSecret)
