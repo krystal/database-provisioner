@@ -10,11 +10,11 @@ jobs:
       - uses: actions/checkout@v2
       - uses: docker/login-action@v1
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: registry.k.io
+          username: ${{ secrets.KRYSTAL_REGISTRY_USERNAME }}
+          password: ${{ secrets.KRYSTAL_REGISTRY_PASSWORD }}
       - run: |
-          make save-manifests docker-build docker-push IMG=ghcr.io/krystal/database-provisioner:${{ github.ref_name }}
+          make save-manifests docker-build docker-push IMG=registry.k.io/kubernetes/database-provisioner:${{ github.ref_name }}
       - uses: "marvinpinto/action-automatic-releases@v1.2.1"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
