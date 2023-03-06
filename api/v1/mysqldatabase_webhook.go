@@ -3,10 +3,7 @@ package v1
 import (
 	"fmt"
 
-	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/runtime/schema"
-	"k8s.io/apimachinery/pkg/util/validation/field"
 	ctrl "sigs.k8s.io/controller-runtime"
 	logf "sigs.k8s.io/controller-runtime/pkg/log"
 	"sigs.k8s.io/controller-runtime/pkg/webhook"
@@ -45,20 +42,7 @@ var _ webhook.Validator = &MySQLDatabase{}
 func (r *MySQLDatabase) ValidateCreate() error {
 	mysqldatabaselog.Info("validate create", "name", r.Name)
 
-	var allErrs field.ErrorList
-	if r.Spec.ServerName == "invalid" {
-		ers := field.Invalid(field.NewPath("spec").Child("serverName"), r.Spec.ServerName, "serverName cannot be the word invalid")
-		allErrs = append(allErrs, ers)
-	}
-
-	if len(allErrs) == 0 {
-		return nil
-	}
-
-	return apierrors.NewInvalid(
-		schema.GroupKind{Group: "databases.k8s.k.io", Kind: "MySQLDatabase"},
-		r.Name,
-		allErrs)
+	return nil
 }
 
 // ValidateUpdate implements webhook.Validator so a webhook will be registered for the type
